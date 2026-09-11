@@ -1,0 +1,24 @@
+{
+  "name": "brawl-analytics",
+  "version": "1.0.0",
+  "description": "O Brawl Analytics é uma plataforma voltada para a análise de dados do jogo Brawl Stars.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanCleverton/Brawl-Analytics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/IanCleverton/Brawl-Analytics/issues"
+  },
+  "homepage": "https://github.com/IanCleverton/Brawl-Analytics#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
