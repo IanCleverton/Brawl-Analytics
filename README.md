@@ -1,26 +1,36 @@
-# Brawl-Analytics
+# Brawl Analytics
 
-# Sobre o projeto
+## Sobre o projeto
 
-O Brawl Analytics é uma plataforma voltada para a análise de dados do jogo Brawl Stars.
+O **Brawl Analytics** é uma plataforma voltada para a análise de dados do jogo **Brawl Stars**.
 
-A proposta é criar um ambiente onde jogadores possam consultar e comparar o desempenho dos diferentes brawlers de acordo com o modo de jogo e o mapa em que estão sendo utilizados.
+A proposta é permitir que jogadores consultem e comparem o desempenho dos diferentes brawlers de acordo com o mapa e o modo de jogo em que estão sendo utilizados.
 
-O sistema pretende apresentar informações como percentual de uso e taxa de vitória, permitindo que o usuário tenha uma visão mais clara de quais brawlers apresentam melhores resultados em determinados cenários.
+O sistema pretende apresentar informações como **percentual de uso** e **taxa de vitória**, permitindo uma visualização mais clara de quais brawlers apresentam melhores resultados em determinados cenários.
 
-Considerando o meu nível atual de conhecimento e a complexidade que o projeto pode alcançar, a ideia inicial é desenvolver uma versão simplificada da plataforma, concentrando-se na consulta e visualização das principais estatísticas.
+Considerando a complexidade do projeto e o tempo disponível para seu desenvolvimento, a proposta é construir inicialmente uma versão **simplificada e funcional**, concentrada na consulta e visualização das principais estatísticas.
 
-A princípio, penso em criar um ambiente onde o usuário possa selecionar um modo de jogo e um mapa e visualizar os brawlers utilizados naquele cenário, juntamente com suas respectivas estatísticas.
+## Objetivos
 
-* Permitir a consulta dos brawlers disponíveis;
-* Permitir a consulta dos modos de jogo;
-* Permitir a consulta dos mapas de cada modo;
-* Exibir o percentual de uso dos brawlers;
-* Exibir a taxa de vitória dos brawlers;
-* Permitir a comparação entre diferentes brawlers;
-* Exibir rankings dos brawlers de acordo com suas estatísticas.
+O Brawl Analytics deverá permitir inicialmente:
 
----
+* Consultar os brawlers disponíveis;
+* Consultar os modos de jogo;
+* Consultar os mapas e seus respectivos modos;
+* Visualizar o percentual de uso dos brawlers;
+* Visualizar a taxa de vitória dos brawlers;
+* Comparar diferentes brawlers;
+* Visualizar rankings de acordo com suas estatísticas.
+
+## Dados
+
+Os dados utilizados pelo sistema deverão ser obtidos a partir de fontes relacionadas ao Brawl Stars, de acordo com as informações disponibilizadas por cada fonte.
+
+A aplicação poderá trabalhar com dados básicos, como brawlers, mapas e modos de jogo, além de dados estatísticos.
+
+As estatísticas serão armazenadas de acordo com o formato disponibilizado pela fonte de dados escolhida. Quando a fonte disponibilizar informações necessárias para o cálculo da taxa de vitória, como quantidade de vitórias e partidas, o sistema poderá realizar esse cálculo. Caso a própria fonte já disponibilize a taxa de vitória, não será necessário armazenar as informações utilizadas para calculá-la apenas para reproduzir o mesmo valor.
+
+Dessa forma, a estrutura do banco será definida de acordo com as necessidades reais do projeto e com os dados que poderão ser obtidos das fontes utilizadas.
 
 ## Brawlers
 
@@ -38,13 +48,11 @@ Brawler
 └── Status
 ```
 
-Essas informações poderão ser utilizadas para identificar e organizar os diferentes personagens disponíveis no jogo.
-
----
+Essas informações serão utilizadas para identificar e organizar os diferentes personagens disponíveis no jogo.
 
 ## Modos de jogo
 
-A plataforma também deverá trabalhar com os diferentes modos de jogo presentes no Brawl Stars.
+A plataforma também trabalhará com os diferentes modos de jogo presentes no Brawl Stars.
 
 Cada modo poderá possuir informações como:
 
@@ -53,11 +61,10 @@ Modo de Jogo
 ├── ID
 ├── Nome
 ├── Descrição
+└── Status
 ```
 
-Os modos serão utilizados para organizar as estatísticas e relacioná-las aos mapas disponíveis.
-
----
+Os modos de jogo serão utilizados para organizar os mapas disponíveis e permitir que o usuário consulte os dados de acordo com o cenário desejado.
 
 ## Mapas
 
@@ -70,31 +77,58 @@ Mapa
 ├── ID
 ├── Nome
 ├── Modo de jogo
+└── Status
 ```
 
-Dessa forma, será possível identificar em qual modo cada mapa está disponível.
-
----
+Dessa forma, ao identificar um mapa, será possível determinar também a qual modo de jogo ele está relacionado.
 
 ## Estatísticas
 
-O principal recurso do Brawl Analytics será a consulta das estatísticas dos brawlers.
+As estatísticas serão o principal recurso de análise do Brawl Analytics.
 
-As informações poderão ser apresentadas de acordo com a combinação entre brawler, modo de jogo e mapa.
+Uma estatística representará o desempenho de um determinado **brawler em um determinado mapa**.
 
-Exemplo:
+Como cada mapa está associado a um modo de jogo, não será necessário armazenar novamente o modo de jogo dentro da estatística.
+
+A estrutura conceitual poderá ser representada como:
 
 ```text
 Estatística
 ├── ID
 ├── Brawler
 ├── Mapa
-├── Modo de jogo
 ├── Percentual de uso
-├── Taxa de vitória
+└── Taxa de vitória
 ```
 
-A partir dessas informações, o usuário poderá visualizar quais brawlers apresentam maior utilização e melhores resultados em cada cenário.
+A quantidade de partidas, vitórias ou outras informações auxiliares não será definida antecipadamente como parte obrigatória da tabela. Isso dependerá dos dados realmente disponibilizados pela fonte utilizada pelo projeto.
+
+## Relações entre as informações
+
+A estrutura inicial do projeto considera as seguintes relações:
+
+```text
+Modo de Jogo
+     │
+     │ 1:N
+     ↓
+   Mapas
+     │
+     │ 1:N
+     ↓
+Estatísticas
+     ↑
+     │ N:1
+ Brawlers
+```
+
+Isso significa que:
+
+* Um modo de jogo pode possuir vários mapas;
+* Um mapa pertence a um modo de jogo;
+* Um brawler pode possuir várias estatísticas;
+* Um mapa pode possuir várias estatísticas;
+* Cada estatística está relacionada a um brawler e a um mapa.
 
 ## Consultas e comparações
 
@@ -104,7 +138,8 @@ A plataforma poderá apresentar:
 
 * Brawlers mais utilizados;
 * Brawlers com maior taxa de vitória;
+* Percentual de uso dos brawlers;
 * Comparação entre diferentes brawlers;
-* Percentual de uso de cada brawler.
+* Rankings de acordo com as estatísticas disponíveis.
 
-A proposta inicial é manter o sistema focado na consulta e análise dessas informações, podendo novas funcionalidades ser adicionadas conforme o desenvolvimento do projeto avance.
+A proposta inicial é manter o sistema focado na consulta e análise dessas informações, evitando funcionalidades que aumentem desnecessariamente a complexidade do projeto.
